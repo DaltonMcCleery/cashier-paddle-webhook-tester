@@ -63,6 +63,6 @@ class WebhookEventReplay extends Command
 
     protected function triggerWebhook($event): void
     {
-        (new WebhookController())->__invoke(request: new Request(attributes: $event));
+        (new WebhookController())->__invoke(request: new Request(query: $event));
     }
 }
