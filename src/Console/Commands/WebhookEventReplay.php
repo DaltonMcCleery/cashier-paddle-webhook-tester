@@ -36,11 +36,13 @@ class WebhookEventReplay extends Command
         $startingEvent = select(
             label: 'Select your Event starting point. We will replay all events from this point onwards.',
             options: collect($events)
+                ->reverse()
                 ->mapWithKeys(fn ($event) => [$event['event_id'] => $event['event_type'] . ' at ' . $event['occurred_at']])
                 ->toArray(),
         );
 
         collect($events)
+            ->reverse()
             ->skipUntil(fn ($event) => $event['event_id'] === $startingEvent)
             ->each(function ($event) {
                 info('Processing event ' . $event['event_type'] . ' at ' . $event['occurred_at']);
